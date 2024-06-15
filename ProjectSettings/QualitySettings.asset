@@ -4,7 +4,7 @@
 QualitySettings:
   m_ObjectHideFlags: 0
   serializedVersion: 5
-  m_CurrentQuality: 3
+  m_CurrentQuality: 1
   m_QualitySettings:
   - serializedVersion: 3
     name: Mobile Low
@@ -64,6 +64,8 @@ QualitySettings:
     - GameCoreXboxOne
     - GameCoreScarlett
     - Windows Store Apps
+    - WebGL
+    - Server
   - serializedVersion: 3
     name: Mobile High
     pixelLightCount: 2
@@ -119,6 +121,7 @@ QualitySettings:
     - GameCoreXboxOne
     - GameCoreScarlett
     - Windows Store Apps
+    - Server
   - serializedVersion: 3
     name: PC Low
     pixelLightCount: 2
@@ -177,6 +180,8 @@ QualitySettings:
     - PS5
     - GameCoreScarlett
     - Windows Store Apps
+    - WebGL
+    - Server
   - serializedVersion: 3
     name: PC High
     pixelLightCount: 2
@@ -229,6 +234,8 @@ QualitySettings:
     - Android
     - Nintendo Switch
     - iPhone
+    - WebGL
+    - Server
   m_TextureMipmapLimitGroupNames: []
   m_PerPlatformDefaultQuality:
     Android: 1

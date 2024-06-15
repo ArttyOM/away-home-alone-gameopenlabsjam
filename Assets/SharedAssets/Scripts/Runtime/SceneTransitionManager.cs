@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
+using Benchmarking;
 using Cinemachine;
 
 public class SceneTransitionManager : MonoBehaviour
@@ -62,6 +63,12 @@ public class SceneTransitionManager : MonoBehaviour
 
     void Awake()
     {
+        if (PerformanceTest.RunningBenchmark)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
         SetupSingleton();
         
         SetupReferences();

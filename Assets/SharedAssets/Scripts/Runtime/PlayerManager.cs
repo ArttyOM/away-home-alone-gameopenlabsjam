@@ -2,6 +2,7 @@ using Cinemachine;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using Benchmarking;
 using UnityEngine.EventSystems;
 
 /// <summary>
@@ -28,7 +29,13 @@ public class PlayerManager : MonoBehaviour
         {
             m_EventSystem.SetActive(true);
         }
-
+        
+        if (PerformanceTest.RunningBenchmark)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
         m_InFlythrough = false;
 
         if (SystemInfo.deviceType == DeviceType.Handheld)

@@ -1,3 +1,4 @@
+using Benchmarking;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,7 +33,7 @@ public class SceneMetaData : MonoBehaviour
 
     void Start()
     {
-        if(SceneTransitionManager.IsAvailable())
+        if(SceneTransitionManager.IsAvailable() && !PerformanceTest.RunningBenchmark)
         {
             SetUp();
         }
