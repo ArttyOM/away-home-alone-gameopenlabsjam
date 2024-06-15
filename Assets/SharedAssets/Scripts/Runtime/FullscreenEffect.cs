@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Serialization;
 
 // Empty class to be used in scenes and doesn't implement any additional overrides
 public class FullscreenEffect : FullscreenEffectBase<FullscreenPassBase>
@@ -18,7 +19,9 @@ public class FullscreenEffectBase<T> : MonoBehaviour where T:FullscreenPassBase,
     private string _passName = "Fullscreen Pass";
 
     [SerializeField]
-    private Material _material;
+    private Material _webGL_Material;
+    [SerializeField]
+    private Material _pcMaterial;
 
     [SerializeField]
     private RenderPassEvent _injectionPoint = RenderPassEvent.BeforeRenderingTransparents;
@@ -49,13 +52,18 @@ public class FullscreenEffectBase<T> : MonoBehaviour where T:FullscreenPassBase,
 
         // pass setup
         _pass.renderPassEvent = _injectionPoint + _injectionPointOffset;
-        _pass.material = _material;
-        if (_material != null)
+        #if UNITY_WEBGL && !UNITY_EDITOR
+        _pass.material = _webGL_Material;
+        #else
+        _pass.material = _pcMaterial;
+        #endif
+        
+        if (_pass.material  != null)
         {
-            _pass.hasYFlipKeyword = _material.shader.keywordSpace.keywordNames.Contains("_FLIPY");
+            _pass.hasYFlipKeyword = _pass.material.shader.keywordSpace.keywordNames.Contains("_FLIPY");
 
             if (_pass.hasYFlipKeyword)
-                _pass.yFlipKeyword = new LocalKeyword(_material.shader, "_FLIPY");
+                _pass.yFlipKeyword = new LocalKeyword(_pass.material.shader, "_FLIPY");
         }
         _pass.passName = _passName;
 
@@ -65,7 +73,7 @@ public class FullscreenEffectBase<T> : MonoBehaviour where T:FullscreenPassBase,
     public virtual void OnBeginCamera( ScriptableRenderContext ctx, Camera cam )
     {
         // Skip if pass wasn't initialized or if material is empty
-        if (_pass == null || _material == null)
+        if (_pass == null || (_webGL_Material == null && _pcMaterial == null))
             return;
 
         // Only draw for selected camera types
